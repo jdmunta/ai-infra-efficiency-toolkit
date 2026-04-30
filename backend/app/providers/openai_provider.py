@@ -11,7 +11,11 @@ class OpenAIProvider:
         self.api_key = settings.OPENAI_API_KEY
 
     def _fwd_headers(self, headers: dict) -> dict:
-        out = {"Authorization": f"Bearer {self.api_key}"}
+        out = {}
+        if self.api_key:
+            out["Authorization"] = f"Bearer {self.api_key}"
+        elif "authorization" in headers:
+            out["authorization"] = headers["authorization"]
         for h in ("content-type", "accept"):
             if h in headers:
                 out[h] = headers[h]

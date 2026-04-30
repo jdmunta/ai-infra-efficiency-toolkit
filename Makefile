@@ -9,13 +9,13 @@ help:
 	@echo "  docker-down    Stop docker compose"
 
 backend:
-	cd backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+	cd backend && .venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ui:
 	cd ui && npm install && npm run dev -- --host 0.0.0.0 --port 5173
 
 test:
-	cd backend && pytest -q
+	cd backend && .venv/bin/pytest -q
 
 docker-up:
 	docker compose up --build
