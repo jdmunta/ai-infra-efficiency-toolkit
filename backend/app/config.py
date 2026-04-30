@@ -25,6 +25,13 @@ class Settings(BaseSettings):
     # JSON object mapping team name -> daily budget in USD, e.g. '{"default": 5.0}'
     TEAM_BUDGETS_JSON: str = "{}"
 
+    # Google OAuth — leave empty to run without auth (dev mode)
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+    JWT_SECRET: str = "change-me-use-a-random-secret-in-production"
+    FRONTEND_URL: str = "http://localhost:5173"
+    OAUTH_REDIRECT_URI: str = "http://localhost:8000/auth/google/callback"
+
     @property
     def team_budgets(self) -> dict:
         try:

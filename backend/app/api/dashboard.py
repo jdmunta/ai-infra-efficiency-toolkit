@@ -6,13 +6,14 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
+from ..auth import get_current_user
 from ..config import settings
 from ..db import get_db
 from ..models import RequestLog
 from ..pricing import estimate_cost_usd
 from ..schemas import CacheStats, DashboardSummary, TimeSeriesPoint
 
-router = APIRouter(prefix="/dashboard", tags=["dashboard"])
+router = APIRouter(prefix="/dashboard", tags=["dashboard"], dependencies=[Depends(get_current_user)])
 
 
 @router.get("/summary", response_model=DashboardSummary)

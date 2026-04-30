@@ -18,6 +18,7 @@ from .analytics.cost import compute_cost
 from .analytics.cache import prompt_hash, prefix_hash
 from .cache_store import LRUCache
 from .api.dashboard import router as dashboard_router
+from .api.auth import router as auth_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,6 +34,7 @@ app.add_middleware(
 )
 
 app.include_router(dashboard_router)
+app.include_router(auth_router)
 
 provider = OpenAIProvider()
 _response_cache: LRUCache = LRUCache(maxsize=settings.CACHE_MAX_SIZE)

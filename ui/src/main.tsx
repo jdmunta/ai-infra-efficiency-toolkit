@@ -1,47 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import "./index.css";
+
+import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { Layout } from "./components/Layout";
+import { Login } from "./pages/Login";
 import { Cost } from "./pages/Cost";
 import { Cache } from "./pages/Cache";
 import { Routing } from "./pages/Routing";
+import { Teams } from "./pages/Teams";
 import { Performance } from "./pages/Performance";
 
-function App() {
-  const [tab, setTab] = useState<"cost"|"routing"|"cache"|"perf">("cost");
+function ProtectedLayout() {
+  const { user, loading } = useAuth();
 
-  const TabBtn = ({ id, label }: any) => (
-    <button
-      onClick={() => setTab(id)}
-      style={{
-        padding: "8px 12px",
-        borderRadius: 10,
-        border: "1px solid #ddd",
-        background: tab === id ? "#111" : "#fff",
-        color: tab === id ? "#fff" : "#111",
-        cursor: "pointer"
-      }}
-    >
-      {label}
-    </button>
-  );
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="w-8 h-8 border-4 border-indigo-100 border-t-indigo-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) return <Navigate to="/login" replace />;
 
   return (
-    <Layout>
-      <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-        <TabBtn id="cost" label="Cost" />
-        <TabBtn id="routing" label="Routing" />
-        <TabBtn id="cache" label="Cache" />
-        <TabBtn id="perf" label="Performance" />
-      </div>
-
-      {tab === "cost" && <Cost />}
-      {tab === "routing" && <Routing />}
-      {tab === "cache" && <Cache />}
-      {tab === "perf" && <Performance />}
-    </Layout>
+    <Layout />
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode><App /></React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<ProtectedLayout />}>
+            <Route index element={<Cost />} />
+            <Route path="cache" element={<Cache />} />
+            <Route path="routing" element={<Routing />} />
+            <Route path="teams" element={<Teams />} />
+            <Route path="performance" element={<Performance />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );

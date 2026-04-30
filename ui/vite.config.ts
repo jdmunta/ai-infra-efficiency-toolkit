@@ -3,5 +3,12 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: 5173, host: true }
+  server: {
+    port: 5173,
+    host: true,
+    proxy: {
+      "/auth": "http://localhost:8000",
+      "/dashboard": "http://localhost:8000",
+    },
+  },
 });
