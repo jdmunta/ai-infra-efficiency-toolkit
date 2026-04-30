@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Database
+*.db
+*.sqlite3
+
+# Environment
+.env
+.env.*
+
+# Node
+node_modules/
+dist/
+
+# Claude Code local config
+.claude/settings.local.json
+
+# OS
+.DS_Store
