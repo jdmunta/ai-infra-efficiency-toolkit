@@ -9,6 +9,12 @@ services:
       - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.openai.com}
       - DATABASE_URL=${DATABASE_URL:-sqlite:///./data.db}
       - DEFAULT_MODEL=${DEFAULT_MODEL:-gpt-4o-mini}
+      - GATEWAY_API_KEY=${GATEWAY_API_KEY:-}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173}
+      - PRICING_CONFIG_PATH=${PRICING_CONFIG_PATH:-}
+      - CACHE_MAX_SIZE=${CACHE_MAX_SIZE:-500}
+      - TEAM_BUDGETS_JSON=${TEAM_BUDGETS_JSON:-{}}
+      - STORE_PROMPT_PREVIEW=${STORE_PROMPT_PREVIEW:-false}
     volumes:
       - ./backend:/app
       - ./backend/data.db:/app/data.db
